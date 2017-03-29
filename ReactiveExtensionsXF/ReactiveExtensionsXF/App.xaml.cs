@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using ReactiveExtensionsXF.View;
 using Xamarin.Forms;
 
 namespace ReactiveExtensionsXF
 {
+    //http://rxwiki.wikidot.com/101samples
     public partial class App : Application
     {
         public App()
         {
-            InitializeComponent();
 
-            MainPage = new ReactiveExtensionsXF.MainPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
