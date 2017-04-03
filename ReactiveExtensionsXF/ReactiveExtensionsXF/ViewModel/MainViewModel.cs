@@ -1,10 +1,8 @@
 ﻿using ReactiveExtensionsXF.Model;
 using System;
 using System.ComponentModel;
-using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 
 namespace ReactiveExtensionsXF.ViewModel
 {
@@ -23,16 +21,16 @@ namespace ReactiveExtensionsXF.ViewModel
 
         private void Track()
         {
+            IObservable<long> mainSequence = Observable.Interval(TimeSpan.FromSeconds(1));
 
             var eventAsObservable = Observable.FromEventPattern(ev => _mainModel.UpdatedData += ev,
-                                                                      ev => _mainModel.UpdatedData -= ev);
+                                                                      ev => _mainModel.UpdatedData -= ev)
+                                              .Where(x=>((DataEventArgs)x.EventArgs).Count > 5);
 
-            eventAsObservable.Subscribe(args =>
-            {
-                LabelText = ((DataEventArgs)args.EventArgs).Text;
-            }
-            );
+            eventAsObservable.Subscribe(x => { LabelText = $"Count: {((DataEventArgs)x.EventArgs).Count.ToString("N0")}"; });
 
+            // Call Dispose when finished, to unsubsribe to events
+            //updateData.Dispose();
         }
 
         private string _labelText;
