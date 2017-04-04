@@ -27,10 +27,10 @@ namespace ReactiveExtensionsXF.ViewModel
                                                                       ev => _mainModel.UpdatedData -= ev)
                                               .Where(x=>((DataEventArgs)x.EventArgs).Count > 5);
 
-            eventAsObservable.Subscribe(x => { LabelText = $"Count: {((DataEventArgs)x.EventArgs).Count.ToString("N0")}"; });
+            var updatedData = eventAsObservable.Subscribe(x => { LabelText = $"Count: {((DataEventArgs)x.EventArgs).Count.ToString("N0")}"; });
 
-            // Call Dispose when finished, to unsubsribe to events
-            //updateData.Dispose();
+            // Call Dispose when finished, to unsubscribe to events
+            //updatedData.Dispose();
         }
 
         private string _labelText;
